@@ -90,12 +90,24 @@ def add_photo_to_album(request, pk):
 
 @login_required
 def delete_album(request, pk):
-    pass
+    album = get_object_or_404(request.user.albums, pk=pk)
+    if request.method == 'POST':
+        album.delete()
+        messages.success(request, 'Album deleted.')
+        return redirect(to='list_albums')
+
+    return render(request, 'core/delete_album.html', {'album': album })
 
 
 @login_required
 def delete_photo(request, pk):
-    pass
+    photo = get_object_or_404(request.user.photos, pk=pk)
+    if request.method == 'POST':
+        photo.delete()
+        messages.success(request, 'Photo deleted.')
+        return redirect(to='show_photos')
+
+    return render(request, 'core/delete_photo.html', {'photo': photo })
 
 
 def search_photos(request):

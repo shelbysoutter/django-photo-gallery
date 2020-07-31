@@ -18,6 +18,7 @@ from django.conf import settings
 from django.urls import include, path
 from core import views as photo_views
 from django.conf.urls import include
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', photo_views.home, name='home'),
@@ -34,7 +35,7 @@ urlpatterns = [
     path('albums/search/', photo_views.search_photos, name='search_photos'),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
