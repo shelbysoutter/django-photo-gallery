@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+  <script src="{% static 'js/photo.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<header class=" black-80 tc pv4 avenir">
+  <a href="" class="bg-black-80 ba b--black dib pa3 w2 h2 br-100">
+    <svg class="white" data-icon="skull" viewBox="0 0 32 32" style="fill:currentcolor"><title>skull icon</title><path d="M16 0 C6 0 2 4 2 14 L2 22 L6 24 L6 30 L26 30 L26 24 L30 22 L30 14 C30 4 26 0 16 0 M9 12 A4.5 4.5 0 0 1 9 21 A4.5 4.5 0 0 1 9 12 M23 12 A4.5 4.5 0 0 1 23 21 A4.5 4.5 0 0 1 23 12"></path></svg>
+  </a>
+  <h1 class="mt2 mb0 baskerville i fw1 f1">Albums</h1>
+  <nav class="bt bb tc mw7 center mt4">
+    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'list_photos' %}">Photos</a>
+    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'list_albums' %}">Albums</a>
+    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'search_photos' %}">Search</a>
+  </nav>
+</header>
+
+<div class="mt2 mb0 f3 fw4 ttu tracked mw7  mt4" id='parent-favorite'>
+
+    {% if album.title %}
+
+    <a style="text-decoration:none" class="black-90" href="{% url 'show_album' pk=album.pk %}"><b>{{ album.title }}</b></a>
+    <a id="toggle-favorite" data-question-id = "{{ album.pk }}" class="no-underline pointer dib grow">
+        {% if user_favorite %}
+        &#9733;
+        {% else %}
+        &#9734;
+        {% endif %}
+    </a>
+    <br></div>
+
+    {% endif %}
+
+
+
+    <ul style='list-style-type: none'>
+        {% for photo in photos %}
+        <a  class="black-90 mt2 mb0 f5 fw4 ttu tracked" href="{% url 'add_photo_to_album' pk=album.pk %}"><li>{{ photo.photo_thumbnail }}</li></a> 
+
+        <br>
+        {% endfor %}
+        <a style="text-decoration:none" class="btn btn-outline-light mt-2 mt2 mb0 f6 fw4 ttu tracked" href="{% url 'add_photo_to_album' pk=album.pk%}">add another photo</a>
+    </ul>
+</div>
+
+<div class="tc" > 
+    <p>
+        <i class="fa fa-trash"></i>
+        <a style="text-decoration:none" class="black-90" href="{% url 'delete_album' pk=album.pk %}">delete album</a>
+    </p>
+    <p>
+        <i class="fa fa-arrow-left"></i>
+        <a class="black-90" style="text-decoration:none" href="{% url 'list_albums' %}">back to all albums</a>
+    </p>
+</div>
+
+<script>
+    const toggleFavoriteLink = document.querySelector("#toggle-favorite")
+    toggleFavoriteLink.addEventListener('click', function (e) {
+      e.preventDefault()
+      const questionId = toggleFavoriteLink.dataset['questionId']
+      fetch(`/questions/${questionId}/favorite/`, {
+          method: 'POST'
+      })
+      .then(res => res.json())
+      .then(data => {
+          if (data.favorite) {
+              toggleFavoriteLink.innerHTML = '&#9733;'
+        } else {
+      toggleFavoriteLink.innerHTML = '&#9734;'
+        }
+      })
+  
+    })
+  </script>
+
+{% endblock %}
