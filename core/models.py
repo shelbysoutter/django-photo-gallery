@@ -20,8 +20,8 @@ class Photo(models.Model):
     photo = models.ImageField(upload_to='photo_photos/', null=True, blank=True)
     photo_thumbnail = ImageSpecField(
         source="photo",
-        processors=[ResizeToFill(200, 200)],
+        processors=[ResizeToFit(200, 200)],
         format="JPEG",
         options={"quality": 60},
-    ),
+    )
     albums = models.ManyToManyField(Album, related_name='photos', blank=True)

@@ -12,7 +12,7 @@ from django.db.models import Count, Min, Q
 # Create your views here.
 def home(request):
     if request.user.is_authenticated:
-        return redirect('list_photos')
+        return redirect('list_albums')
     return render(request, 'core/home.html')
 
 
@@ -23,13 +23,20 @@ def list_albums(request):
 
 
 @login_required
+def list_photos(request):
+    photos = request.user.photos.all()
+    form = PhotoForm()
+    return render(request, 'core/list_photos.html', {'photos': photos, 'form': form})
+
+
+@login_required
 def show_photo(request, pk):
     photo = get_object_or_404(request.user.photos, pk=pk)
     form = PhotoForm()
     photos = photo.photos.order_by('uploaded_at')
     user_favorite = request.user.is_favorite_photo(photo)
-    return render(request, 'core/show_photo.html', {'photo': photo, 'pk': pk, 'form': form, 'photos': photos, 'user_favorite': user_favorite})
-
+    return render(request, 'core/show_photo.html', {'photo': photo, 'form': form, 'photos': photos, 'user_favorite': user_favorite, 'pk':pk})
+   
 
 @login_required
 def show_album(request, pk):
@@ -73,7 +80,7 @@ def add_photo_to_album(request, pk):
     album = get_object_or_404(request.user.albums, pk=pk)
 
     if request.method == 'POST':
-        form = PhotoForm(data=request.POST)
+        form = PhotoForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             photo = form.instance
             photo.owner = request.user
@@ -86,7 +93,17 @@ def add_photo_to_album(request, pk):
     return render(request, 'core/add_photo_to_album.html', {'form': form, 'album': album})
 
 
-
+@login_required
+def edit_album(request, pk):
+    album = get_object_or_404(request.user.albums, pk=pk)
+    if request.method == 'POST':
+        form = AlbumForm(data=request.POST, instance=album)
+        if form.is_valid():
+            album = form.save()
+            return redirect(to='list_albums')
+    else:
+        form = AlbumForm(instance=album)
+    return render(request, 'core/edit_album.html', {'form': form, 'album': album})
 
 @login_required
 def delete_album(request, pk):
