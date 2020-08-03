@@ -6,4 +6,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    pass
+     def is_favorite_album(self, album):
+        return self.favorite_album.filter(pk=album.pk).count() == 1
+
+     def is_favorite_photo(self, photo):
+        return self.favorite_photo.filter(pk=photo.pk).count() == 1

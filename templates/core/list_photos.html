@@ -1,34 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-<header class="bg-lightgrey black-80 tc pv4 avenir">
-  <a href="" class="bg-black-80 ba b--black dib pa3 w2 h2 br-100">
-    <svg class="white" data-icon="skull" viewBox="0 0 32 32" style="fill:currentcolor"><title>skull icon</title><path d="M16 0 C6 0 2 4 2 14 L2 22 L6 24 L6 30 L26 30 L26 24 L30 22 L30 14 C30 4 26 0 16 0 M9 12 A4.5 4.5 0 0 1 9 21 A4.5 4.5 0 0 1 9 12 M23 12 A4.5 4.5 0 0 1 23 21 A4.5 4.5 0 0 1 23 12"></path></svg>
-  </a>
-  <h1 class="mt2 mb0 baskerville i fw1 f1">Photos</h1>
-  <nav class="bt bb tc mw7 center mt4">
-    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'list_photos' %}">Photos</a>   
-    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'add_album' %}">Create Album</a>
-    <a class="f6 f5-l link bg-animate black-80 hover-bg-lightest-blue dib pa3 ph4-l" href="{% url 'search_photos' %}">Search</a>
- </nav>
-</header>
+<header class="masthead mb-auto">
+    <main role="main" class="inner cover">
+      <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="col-md-5 p-lg-5 mx-auto my-5">
+          <h1 class="display-4 font-weight-normal">Photos</h1>
+          <p class="lead font-weight-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple’s marketing pages.</p>
+          <a class="btn btn-outline-secondary" href="{% url 'add_photo' %}">Upload</a>
+          <a class="btn btn-outline-secondary" href="{% url 'list_albums' %}">Albums</a>
+        </div>
+        <div class="product-device shadow-sm d-none d-md-block"></div>
+        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+      </div> 
+      </main>
+       </nav>
+  </header>
 
-<div class="flex flex-wrap">
-  {% for photo in photos %}
-  <div class="w-33 pa3 mw5 center br3 pa3 pa4-ns mv3 ba b--black-5" ß>
 
-    {% if photo.photo %}
-    <div class="flex "><img src="{{ photo.photo_thumbnail.url }}"></div>
-    {% endif %}
-
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+    {% for photo in photos %}
+    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+        {% if photo.photo %}
+         <div class="my-3 py-3"><img src="{{ photo.photo_thumbnail.url }}"></div>
+        {% endif %}
     <br>
-   
-    <p>
-        <i class="fa fa-trash"></i>
-        <a style="text-decoration:none" class="black-90" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
-    </p>
-  </div>
-  {% endfor %}
+
+        <p>
+            <i class="fa fa-trash"></i>
+            <a style="text-decoration:none" class="white" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
+         </p>
+</div>
+
+{% endfor %}
+</div>
 
 </div>
 {% endblock %}

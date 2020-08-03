@@ -19,7 +19,8 @@ def home(request):
 @login_required
 def list_albums(request):
     albums = request.user.albums.all()
-    return render(request, 'core/list_albums.html', {'albums': albums})
+    form = AlbumForm()
+    return render(request, 'core/list_albums.html', {'albums': albums, 'form':form})
 
 
 @login_required
@@ -42,7 +43,7 @@ def show_photo(request, pk):
 def show_album(request, pk):
     album = get_object_or_404(request.user.albums, pk=pk)
     form = AlbumForm()
-    photos = album.photos.order_by('uploaded_at')
+    photos = album.photos.all().order_by('uploaded_at')
     user_favorite = request.user.is_favorite_album(album)
     return render(request, 'core/show_album.html', {'album': album, 'pk': pk, 'form': form, 'photos': photos, 'user_favorite': user_favorite})
 
@@ -86,6 +87,8 @@ def add_photo_to_album(request, pk):
             photo.owner = request.user
             photo.album = album
             photo.save()
+            album.photos.add(photo)
+        
             return redirect(to='show_album', pk=pk)
     else:
         form = PhotoForm()
@@ -122,7 +125,7 @@ def delete_photo(request, pk):
     if request.method == 'POST':
         photo.delete()
         messages.success(request, 'Photo deleted.')
-        return redirect(to='show_photos')
+        return redirect(to='list_photos')
 
     return render(request, 'core/delete_photo.html', {'photo': photo })
 
@@ -149,7 +152,7 @@ def favorite_album(request, pk):
 @require_POST
 def favorite_photo(request, pk):
     photo = get_object_or_404(request.user.photos, pk=pk)
-    if photo in request.user.favorite_photo.all():
+    if photo in request.user.favorite_photos.all():
         request.user.favorite_photo.remove(photo)
         return JsonResponse({'favorite': False})
     else:

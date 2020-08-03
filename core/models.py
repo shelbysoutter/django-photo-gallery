@@ -10,6 +10,7 @@ class Album(models.Model):
     featured_photo = models.ForeignKey('Photo', on_delete=models.CASCADE, related_name= '+',  null=True, blank=True)
     title = models.CharField(max_length = 50)
     public = models.BooleanField(default=True)
+    favorited_by = models.ManyToManyField(User, related_name='favorite_album', blank=True)
 
 
 class Photo(models.Model):
@@ -20,7 +21,7 @@ class Photo(models.Model):
     photo = models.ImageField(upload_to='photo_photos/', null=True, blank=True)
     photo_thumbnail = ImageSpecField(
         source="photo",
-        processors=[ResizeToFit(200, 200)],
+        processors=[ResizeToFill(200, 200)],
         format="JPEG",
         options={"quality": 60},
     )

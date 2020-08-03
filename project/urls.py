@@ -37,7 +37,14 @@ urlpatterns = [
     path('albums/search/', photo_views.search_photos, name='search_photos'),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
+    path('api/', include('api.urls')),
 ] + static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+urlpatterns += [
+    path('api-auth/', include('rest_framework.urls')),
+]
+
 
 if settings.DEBUG:
     import debug_toolbar
