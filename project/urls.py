@@ -35,6 +35,7 @@ urlpatterns = [
     path('albums/<int:pk>/edit/', photo_views.edit_album, name='edit_album'),
     path('albums/<int:pk>/delete/', photo_views.delete_album, name='delete_album'),
     path('albums/search/', photo_views.search_photos, name='search_photos'),
+    path('albums/add-remove/', photo_views.album_add_remove_photo, name='album_add_remove_photo'),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
     path('api/', include('api.urls')),

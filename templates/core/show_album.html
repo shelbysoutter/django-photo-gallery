@@ -12,36 +12,34 @@
         <div class="col-md-5 p-lg-5 mx-auto my-5">
             {% if album.title %}
           <h1 class="display-4 font-weight-normal">{{ album.title }}</h1>
+          <p class="lead font-weight-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple’s marketing pages.</p>
           <a class="btn btn-outline-secondary" href="{% url 'add_photo_to_album' pk=album.pk %}">Add Photo</a>
           <a class="btn btn-outline-secondary" href="{% url 'delete_album' pk=album.pk  %}">Delete Album</a>
           <a class="btn btn-outline-secondary" href="{% url 'list_albums'  %}">All Albums</a>
           <br>
-         
-         <a id="toggle-favorite" data-album-id = "{{ album.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
+           <a id="toggle-favorite" data-album-id = "{{ album.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
             {% if user_favorite %}
              &#9733;
              {% else %}
              &#9734;
              {% endif %}
            </a>
-             {% endif %}
+          {% endif %}
         </div>
         <div class="product-device shadow-sm d-none d-md-block"></div>
         <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
       </div> 
       </main>
        </nav>
-</header>
+  </header>
 
 <div class="flex flex-wrap">
     {% for photo in photos %}
    
-    <div class="w-33 pa3 mw5 center br3 pa3 pa4-ns mv3 ba b--black-5" ß>
-         
-  
+    <div class="w-33 pa3 mw5 center br3 pa3 pa4-ns mv3" ß>
   
       {% if photo.photo %}
-      <div class="flex "><img src="{{ photo.photo_thumbnail.url }}"></div>
+      <div class="flex"><img class="zoom" src="{{ photo.photo_thumbnail.url }}"></div>
       {% endif %}
   
       <br>
@@ -51,8 +49,8 @@
           <a style="text-decoration:none" class="black-90" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
       </p>
      
-    </div>
-    {% endfor %}
+</div>
+{% endfor %}
     
 
 

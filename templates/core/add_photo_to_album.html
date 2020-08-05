@@ -16,6 +16,26 @@
       </main>
        </nav>
 </header>
+<div class="flex">
+    <div class="w-50 pr3 flex flex-column">
+      <h2>{{ album.title }}</h2>
+      <div id="album-container" class="flex-auto">
+      {% for photo in album.photos.all %}
+        <div class="" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ album.featured_photo.photo_thumbnail.url }}"></div>
+      {% endfor %}
+      </div>
+    </div>
+    
+    <div class="w-50 flex flex-column">
+      <h2>Available photos</h2>
+      <div id="photos" class="flex-auto">
+      {% for photo in photos.all %}
+        <div class="" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ photo.photo_thumbnail.url }}"></div>
+      {% endfor %}
+      </div>
+    </div>
+    </div>
+
 
 
 <div class="mt2 mb0 f6 fw4 ttu tracked tc mw7 center mt4">
@@ -23,8 +43,39 @@
     {% csrf_token %}
     {{ form.as_p }}
     <div>
-      <button class="btn btn-outline-secondary" type="submit">Upload</button>
+      <button class="btn btn-outline-secondary" type="submit">Save</button>
     </div>
   </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  dragula([
+    document.getElementById("album-container"),
+    document.getElementById("photos")
+  ])
+  .on('drop', (el, target, source, sibling) => {
+    if (target === source) {
+      return
+    }
+
+    const formData = new FormData()
+    formData.append("pk", el.dataset.pk)
+
+    if (target.id === "album-container") {
+        console.log('photo added')
+        formData.append("action", "add")
+    } else if (target.id === "photos") {
+        console.log('photo removed')
+        formData.append("action", "remove")
+    }
+
+    fetch('/albums/add-remove/', {
+      body: formData,
+      method: 'POST'
+    }).then(() => {})
+  })
+</script>
 {% endblock %}

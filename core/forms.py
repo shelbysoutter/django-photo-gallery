@@ -9,7 +9,7 @@ class PhotoForm(forms.ModelForm):
             'photo',
         ]
         widgets = {
-            'photo': forms.FileInput(attrs={'class': "pa2 f4 w-100"})
+            'photo': forms.FileInput(attrs={'class': "center f5 w-100%"})
         }
 
 

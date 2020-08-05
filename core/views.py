@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import Photo, Album
 from .forms import PhotoForm, AlbumForm
 from django.contrib.auth.decorators import login_required 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 import datetime
@@ -54,7 +54,7 @@ def add_photo(request):
         form = PhotoForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             photo = form.save(commit=False)
-            photo.user = request.user
+            photo.owner = request.user
             photo.save()
             return redirect(to='list_photos')
     else:
@@ -68,7 +68,7 @@ def add_album(request):
         form = AlbumForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             album = form.save(commit=False)
-            album.user = request.user
+            album.owner = request.user
             album.save()
             return redirect(to='list_albums')
     else:
@@ -79,6 +79,7 @@ def add_album(request):
 @login_required
 def add_photo_to_album(request, pk):
     album = get_object_or_404(request.user.albums, pk=pk)
+    photos = request.user.photos.exclude(albums__pk=album.pk)
 
     if request.method == 'POST':
         form = PhotoForm(data=request.POST, files=request.FILES)
@@ -93,7 +94,7 @@ def add_photo_to_album(request, pk):
     else:
         form = PhotoForm()
     
-    return render(request, 'core/add_photo_to_album.html', {'form': form, 'album': album})
+    return render(request, 'core/add_photo_to_album.html', {'form': form, 'album': album, 'photos': photos})
 
 
 @login_required
@@ -158,3 +159,20 @@ def favorite_photo(request, pk):
     else:
         request.user.favorite_photo.add(photo)
         return JsonResponse({'favorite': True})
+
+
+@login_required
+@csrf_exempt
+def album_add_remove_photo(request):
+    photo_pk = request.POST.get('pk')
+    action = request.POST.get('action')
+
+    album = request.user.albums.get_or_create()
+    photo = Photo.objects.all(request.user).get(pk=photo_pk)
+
+    if action == 'add':
+        album.photos.add(photo)
+    elif action == 'remove':
+        album.photos.remove(photo)
+    
+    return HttpResponse(status=204)

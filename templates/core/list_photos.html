@@ -10,25 +10,27 @@
           <a class="btn btn-outline-secondary" href="{% url 'add_photo' %}">Upload</a>
           <a class="btn btn-outline-secondary" href="{% url 'list_albums' %}">Albums</a>
         </div>
-        <div class="product-device shadow-sm d-none d-md-block"></div>
-        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+        <div class="product-device d-none d-md-block"></div>
+        <div class="product-device  d-none d-md-block"></div>
       </div> 
       </main>
        </nav>
   </header>
 
 
-<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+<div class="d-md-flex flex-wrap w-100 pl-md-3">
     {% for photo in photos %}
-    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+    <div class=" mr-md-3 text-center text-black overflow-hidden">
         {% if photo.photo %}
-         <div class="my-3 py-3"><img src="{{ photo.photo_thumbnail.url }}"></div>
+         <div class="my-3 py-3">
+             <img class="zoom" src="{{ photo.photo_thumbnail.url }}">
+        </div>
         {% endif %}
     <br>
 
         <p>
             <i class="fa fa-trash"></i>
-            <a style="text-decoration:none" class="white" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
+            <a style="text-decoration:none" class="black" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
          </p>
 </div>
 

@@ -23,13 +23,13 @@
   {% for album in albums %}
   <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
     <div class="my-3 py-3">
-      <h2 class="display-5 black-90"><a style="text-decoration:none" href="{% url 'show_album' pk=album.pk %}">{{ album.title }}</h2></a>
-      <p class="lead">And an even wittier subheading.</p>
+      <h2 class="display-5 text-white"><a style="text-decoration:none" href="{% url 'show_album' pk=album.pk %}">{{ album.title }}</h2></a>
     </div>
     {% if album.photos %}
-    <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"> 
-      <div class=""><img src="{{ album.featured_photo.photo_thumbnail.url }}"></div>
+    <div class="bg-light shadow-sm mx-auto" style="width: 60%; border-radius: 21px 21px 21px 21px;"> 
+      <div class="text-center"><img src="{{ album.featured_photo.photo_thumbnail.url }}"></div>
     </div>
+    <br>
     {% endif %}
 
     <p>
