@@ -166,9 +166,10 @@ def favorite_photo(request, pk):
 def album_add_remove_photo(request):
     photo_pk = request.POST.get('pk')
     action = request.POST.get('action')
+    album_pk = request.POST.get('album')
 
-    album = request.user.albums.get_or_create()
-    photo = Photo.objects.all(request.user).get(pk=photo_pk)
+    album = request.user.albums.get(pk=album_pk)
+    photo = request.user.photos.get(pk=photo_pk)
 
     if action == 'add':
         album.photos.add(photo)

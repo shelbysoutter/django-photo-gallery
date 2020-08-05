@@ -19,16 +19,12 @@
 <div class="flex">
     <div class="w-50 pr3 flex flex-column">
       <h2>{{ album.title }}</h2>
-      <div id="album-container" class="flex-auto">
-      {% for photo in album.photos.all %}
-        <div class="" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ album.featured_photo.photo_thumbnail.url }}"></div>
-      {% endfor %}
-      </div>
+      <div id="album-container" class="flex-auto" data-album="{{ album.pk }}"></div>
     </div>
     
     <div class="w-50 flex flex-column">
       <h2>Available photos</h2>
-      <div id="photos" class="flex-auto">
+      <div id="photos" class="flex-auto" data-album="{{ album.pk }}">
       {% for photo in photos.all %}
         <div class="" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ photo.photo_thumbnail.url }}"></div>
       {% endfor %}
@@ -63,6 +59,7 @@
 
     const formData = new FormData()
     formData.append("pk", el.dataset.pk)
+    formData.append("album", target.dataset.album)
 
     if (target.id === "album-container") {
         console.log('photo added')
