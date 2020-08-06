@@ -22,11 +22,11 @@
       <div id="album-container" class="flex-auto" data-album="{{ album.pk }}"></div>
     </div>
     
-    <div class="w-50 flex flex-column">
+    <div class="w-50 flex flex-column ">
       <h2>Available photos</h2>
-      <div id="photos" class="flex-auto" data-album="{{ album.pk }}">
+      <div id="photos" class="d-md-flex flex-wrap pl-md-3" data-album="{{ album.pk }}">
       {% for photo in photos.all %}
-        <div class="" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ photo.photo_thumbnail.url }}"></div>
+        <div class="mr-md-2" style="cursor: move" data-pk="{{ photo.pk }}"><img src="{{ photo.photo_thumbnail.url }}"></div>
       {% endfor %}
       </div>
     </div>
@@ -39,7 +39,7 @@
     {% csrf_token %}
     {{ form.as_p }}
     <div>
-      <button class="btn btn-outline-secondary" type="submit">Save</button>
+      <button class="btn btn-outline-secondary" type="submit">Add</button>
     </div>
   </form>
 </div>
@@ -62,10 +62,8 @@
     formData.append("album", target.dataset.album)
 
     if (target.id === "album-container") {
-        console.log('photo added')
         formData.append("action", "add")
     } else if (target.id === "photos") {
-        console.log('photo removed')
         formData.append("action", "remove")
     }
 

@@ -219,7 +219,7 @@ body {
 /* Zoom */
 
 .zoom {
-  padding: 50px;
+  padding: 25px;
   transition: transform .2s; /* Animation */
   width: 200px;
   height: 200px;

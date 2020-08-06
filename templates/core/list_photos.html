@@ -18,18 +18,17 @@
   </header>
 
 
-<div class="d-md-flex flex-wrap w-100 pl-md-3">
+<div class="d-md-flex flex-wrap pl-md-3">
     {% for photo in photos %}
-    <div class=" mr-md-3 text-center text-black overflow-hidden">
+    <div class=" mr-md-2 text-center text-black overflow-hidden">
         {% if photo.photo %}
-         <div class="my-3 py-3">
+         <div class="">
              <img class="zoom" src="{{ photo.photo_thumbnail.url }}">
         </div>
         {% endif %}
 
         <p>
-            <i class="fa fa-trash"></i>
-            <a style="text-decoration:none" class="black" href="{% url 'delete_photo' pk=photo.pk %}">delete</a><br>
+            <a style="text-decoration:none" class="black" href="{% url 'delete_photo' pk=photo.pk %}"><i class="fa fa-trash"></i></a><br>
          </p>
 </div>
 
