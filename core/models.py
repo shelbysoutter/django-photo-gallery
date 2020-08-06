@@ -18,7 +18,7 @@ class Photo(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     public = models.BooleanField(default=True)
     favorited_by = models.ManyToManyField(User, related_name='favorite_photos', blank=True)
-    photo = models.ImageField(upload_to='photo_photos/', null=True, blank=True)
+    photo = models.ImageField(upload_to='photo_photos/', null=True, blank=False)
     photo_thumbnail = ImageSpecField(
         source="photo",
         processors=[ResizeToFill(200, 200)],

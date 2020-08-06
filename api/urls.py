@@ -7,23 +7,19 @@ from rest_framework import renderers
 
 album_list = AlbumViewSet.as_view({
     'get': 'list',
-    'post': 'create'
+
 })
 album_detail = AlbumViewSet.as_view({
     'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
+
 })
 photo_list = PhotoViewSet.as_view({
     'get': 'list',
-    'post': 'create'
+
 })
 photo_detail = PhotoViewSet.as_view({
     'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
+
 })
 user_list = UserViewSet.as_view({
     'get': 'list'

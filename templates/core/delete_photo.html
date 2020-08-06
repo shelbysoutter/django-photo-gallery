@@ -21,7 +21,15 @@
   <form action="{% url 'delete_photo' pk=photo.pk %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <p>Are you sure you want to delete <img src="{{ photo.photo_thumbnail.url }}">?</p>
+    <p>
+        Are you sure you want to delete 
+        {% if photo.photo %}
+        <img src="{{ photo.photo_thumbnail.url }}">
+        {% else %}
+        this weird blank nothing
+        {% endif %}
+        ?
+    </p>
     <div>
         <i class="fa fa-trash"></i>
         <button class="btn btn-outline-secondary" type="submit">Delete photo</button>

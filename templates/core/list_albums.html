@@ -19,37 +19,38 @@
      </nav>
 </header>
 
-<article class="mw5 center bg-white br3 pa2 pa4-ns mv1 ba b--black-10">
+<div class= "d-md-flex flex-wrap">
   {% for album in albums %}
-  <div class="tc">
-    <div>
-      <a class=" center mw5 tc black link dim"
-      href="{% url 'show_album' pk=album.pk %}">
-    </div>
+    <article class="mw5 center bg-white br3 pa2 pa4-ns mv1 ba b--black-10 bw1">
+      <div class="tc flex">
+        <div class=''>
+          <a class=" center mw5 tc black link dim"
+          href="{% url 'show_album' pk=album.pk %}">
+        </div>
 
-    {% if album.photos %}
-    <div>
-      <div class=""><img class=" ba b--black-10"
-          src="{{ album.featured_photo.photo_thumbnail.url }}"
-      ></div>
-    </div>
-    {% endif %}
-    </a>
-    <hr class="mw3 bb bw1 b--black-10">
-  </div>
-  <div class="tc">
-    <dl class="mt2 f6 lh-copy">
-      <dt class="clip">Title</dt>
-      <dd class="f4">{{album.title}}</dd>
-      <dt class="clip">Edit</dt>
-      <dd class="ml0 gray"><a style="text-decoration:none" href="{% url 'edit_album' pk=album.pk %}">edit</a></dd>
-      <dt class="clip">Delete</dt>
-      <dd class="ml0 gray"><a style="text-decoration:none" href="{% url 'delete_album' pk=album.pk %}">delete</a></dd>
-    </dl>
-    {% endfor %}
-  </div>
-  </article>
-
+        {% if album.photos %}
+        <div>
+          <div class=""><img class=" ba b--black-10"
+              src="{{ album.featured_photo.photo_thumbnail.url }}"
+          ></div>
+        </div>
+        {% endif %}
+        </a>
+        <hr class="mw3 bb bw1 b--black-10">
+      </div>
+      <div class="tc">
+        <dl class="mt2 f6 lh-copy">
+          <dt class="clip">Title</dt>
+          <dd class="f4">{{album.title}}</dd>
+          <dt class="clip">Edit</dt>
+          <dd class="white"><a class="black" style="text-decoration:none" href="{% url 'edit_album' pk=album.pk %}">Edit</a></dd>
+          <dt class="clip">Delete</dt>
+          <dd class="ml0 gray"><a class="black" style="text-decoration:none" href="{% url 'delete_album' pk=album.pk %}">Delete</a></dd>
+        </dl>      
+      </div>
+    </article>
+  {% endfor %}
+</div>
 
 
 {% endblock %}
